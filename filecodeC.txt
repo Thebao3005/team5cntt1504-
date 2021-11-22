@@ -1,0 +1,81 @@
+#include<stdio.h>
+#include<stdlib.h>
+#include<string.h>
+struct date{
+	int ngay;
+	int thang;
+	int nam;
+};
+struct sinhvien{
+	int id;
+	char ten[50];
+	date ngaysinh;
+	char gioitinh[10];
+	int SDT;
+	char email[50];
+};
+void xoaxuongdong(char x[]){
+	size_t bien=strlen(x);
+    if(x[bien-1]='\n'){
+    	x[bien-1]='\0';
+	}
+}
+typedef sinhvien SV;
+void nhapdata(SV &sv){
+	printf("\nNhap Id:");scanf("%d",&sv.id);
+	printf("\nNhap ten:");fflush(stdin);fgets(sv.ten,sizeof(sv.ten),stdin);xoaxuongdong(sv.ten);
+	printf("\nNhap gioi tinh:");fflush(stdin);fgets(sv.gioitinh,sizeof(sv.gioitinh),stdin);xoaxuongdong(sv.gioitinh);
+	printf("\nNhap ngay sinh:");scanf("%d%d%d",&sv.ngaysinh.ngay,&sv.ngaysinh.thang,&sv.ngaysinh.nam);
+	printf("\nNhap SDT:");scanf("%d",&sv.SDT);
+	printf("\nNhap email:");fflush(stdin);fgets(sv.email,sizeof(sv.email),stdin);xoaxuongdong(sv.email);
+}
+void nhapDSdata(SV ds[],int &n){
+	printf("Nhap so sinh vien:");
+	scanf("%d",&n);
+	for(int i=1;i<=n;i++){
+		printf("Nhap sinh vien thu:%d",i);
+		nhapdata(ds[i]);
+	}
+}
+void xuatsv(SV sv){
+	printf("%5d\t %10s\t %10s\t %5d/%d/%d\t %20d\t %20s \n",sv.id,sv.ten,sv.gioitinh,sv.ngaysinh.ngay,sv.ngaysinh.thang,sv.ngaysinh.nam,sv.SDT,sv.email);
+}
+void xuatDSsv(SV ds[],int n){
+	for(int i=0;i<n;i++){
+		xuatsv(ds[i]);
+	}
+}
+int main(){
+	SV ds[100];
+	int n;
+	printf("Nhap so sinh vien:");
+	scanf("%d",&n);
+	char tenfile[100];
+	printf("Nhap vao duong dan va ten file:");
+	fflush(stdin);fgets(tenfile,sizeof(tenfile),stdin);xoaxuongdong(tenfile);
+	FILE *f;
+	f=fopen(tenfile,"wb");
+	if(f==NULL){
+		printf("Loi mo file!!");
+		return 0;
+	}
+	fwrite(&n,sizeof(n),1,f);
+	sinhvien sv;
+	for(int i=0;i<n;i++){
+		printf("sinh vien thu: %d",i);
+	nhapdata(ds[i]);
+	fwrite(&ds[i],sizeof(SV),1,f);
+	};
+	fclose(f);
+	f=fopen(tenfile,"rb");
+	if(f==NULL){
+		printf("Loi mo file!!");
+	}
+	fread(&n,sizeof(n),1,f);
+	printf("Thoong tin sinh vien\n");
+	printf("%5s\t %10s\t %10s\t %5s \t %20s\t %20s \n","ID","Ten","Gioi tinh","Ngay sinh","SDT","Email");
+	for(int i=0;i<n;i++){
+		xuatsv(ds[i]);
+	fread(&ds[i],sizeof(SV),1,f);}
+	return 0;
+}
