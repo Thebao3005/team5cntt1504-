@@ -1,3 +1,2 @@
 # team5cntt1504
-đóng góp nhóm
-chào mọi người
+nhóm đóng góp
