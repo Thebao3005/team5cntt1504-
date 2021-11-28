@@ -1,3 +1,1 @@
-# team5cntt1504
-nhÃ³m Ä‘Ã³ng gÃ³p
-hello
+xin chào dây là dóng góp nhóm 
